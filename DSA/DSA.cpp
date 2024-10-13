@@ -125,7 +125,16 @@ private:
 			delete current;
 		}
 	}
-	int height(Node* node);
+	int height(Node* node) 
+	{
+		if (isEmpty())
+		{
+			cout << "Tree is empty" << endl;
+			return 0;
+		}
+
+		return max(height(node->leftPtr), height(node->rightPtr));
+	}
 	int max(int x, int y)
 	{
 		if (x >= y)
@@ -133,8 +142,28 @@ private:
 		else
 			return y;
 	}
-	int nodeCount(Node* node);
-	int leavesCount(Node* node);
+	int nodeCount(Node* node)
+	{
+		if (isEmpty())
+		{
+			cout << "Tree is Empty" << endl;
+			return 0;
+		}
+		return 1 + nodeCount(node->leftPtr) + nodeCount(node->rightPtr);
+	}
+	int leavesCount(Node* node)
+	{
+		if (isEmpty())
+		{
+			cout << "Tree is empty" << endl;
+			return 0;
+		}
+
+		else if (node->leftPtr == nullptr && node->rightPtr == nullptr)
+			return 1;
+		else
+			return leavesCount(node->leftPtr) + leavesCount(node->rightPtr);
+	}
 	void clearTree(Node*& node) {
 		if (node != nullptr)
 		{
@@ -258,7 +287,10 @@ public:
 	{
 		return max(x, y);
 	}
-	int nodeCountOfTree(Node* node);
+	int nodeCountOfTree()
+	{
+		return nodeCount(root);
+	}
 	int leavesCountOfTree(Node* node);
 
 };
