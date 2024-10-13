@@ -168,19 +168,11 @@ public:
 			while (current != nullptr)
 			{
 				trailCurrent = current;
-
-				/*if (current->item == itemToInsert)
-				{
-					cout << "The insert item is already in the list -- ";
-					cout << "duplicates are not allowed." << endl;
-					return;
-				}*/
-				//else
 				if (current->item > itemToInsert)
 					current = current->leftPtr;
 				else
 					current = current->rightPtr;
-			}//end while
+			}
 
 			if (trailCurrent->item > itemToInsert)
 				trailCurrent->leftPtr = newNode;
