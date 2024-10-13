@@ -238,9 +238,8 @@ public:
 	}
 };
 
-int main()
+void BinaryTreeExample()
 {
-
 	BinaryTree* BT = new BinaryTree();
 
 	BT->insert(40);
@@ -251,12 +250,18 @@ int main()
 	BT->insert(22);
 	BT->insert(50);
 
-	BT->remove(50); 
+	BT->remove(50);
 
- 	BT->postorderTraversal();
-	
+	BT->postorderTraversal();
+
 	cout << (BT->search(22) ? "True" : "False");
 
+}
+
+int main()
+{
+
+	
 	system("pause");
 	return 0;
 }
