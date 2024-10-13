@@ -122,8 +122,26 @@ private:
 				node->leftPtr = current->leftPtr;
 			else
 				trailCurrent->rightPtr = current->leftPtr;
-
 			delete current;
+		}
+	}
+	int height(Node* node);
+	int max(int x, int y)
+	{
+		if (x >= y)
+			return x;
+		else
+			return y;
+	}
+	int nodeCount(Node* node);
+	int leavesCount(Node* node);
+	void clearTree(Node*& node) {
+		if (node != nullptr)
+		{
+			clearTree(node->leftPtr);
+			clearTree(node->rightPtr);
+			delete node;
+			node = nullptr;
 		}
 	}
 	
@@ -228,6 +246,21 @@ public:
 		else
 			deleteFromTree(trailCurrent->rightPtr);
 	}
+	void clear()
+	{
+		clearTree(root);
+	}
+	int heightOfTree()
+	{
+		return height(root);
+	}
+	int maxOfTree(int x, int y)
+	{
+		return max(x, y);
+	}
+	int nodeCountOfTree(Node* node);
+	int leavesCountOfTree(Node* node);
+
 };
 
 void BinaryTreeExample()
@@ -242,7 +275,9 @@ void BinaryTreeExample()
 	BT->insert(22);
 	BT->insert(50);
 
-	BT->remove(50);
+	BT->postorderTraversal();
+	
+	BT->clear();
 
 	BT->postorderTraversal();
 
@@ -252,7 +287,7 @@ void BinaryTreeExample()
 
 int main()
 {
-
+	BinaryTreeExample();
 	
 	system("pause");
 	return 0;
