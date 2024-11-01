@@ -350,18 +350,22 @@ void static heapSort(int arr[], int n)
 		heapfiy(arr, n ,0);
 	}
 }
-
-
+void static print(int arr[], int size)
+{
+	for (int i = 0; i < size; i++) cout << arr[i] << " ";
+}
 void static heapSortExample()
 {
 	int arr[] = { 3, 2, 5, 6, 9, 7, 1 };
-	
-	for (int i : arr) cout << i << " ";
-	
+	int size = 7;
+
+	print(arr, size);
+
 	cout << endl;
-	heapSort(arr, 7);
+	heapSort(arr, size);
+
+	print(arr, size);
 	
-	for (int i : arr) cout << i << " ";
 }
 
 int main()
