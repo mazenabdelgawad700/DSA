@@ -357,7 +357,7 @@ void static print(int arr[], int size)
 void static heapSortExample()
 {
 	int arr[] = { 3, 2, 5, 6, 9, 7, 1 };
-	int size = 7;
+	int size = sizeof(arr) / sizeof(arr[0]);
 
 	print(arr, size);
 
