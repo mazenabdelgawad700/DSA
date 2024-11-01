@@ -291,11 +291,14 @@ public:
 	{
 		return nodeCount(root);
 	}
-	int leavesCountOfTree(Node* node);
+	int leavesCountOfTree()
+	{
+		return leavesCount(root);
+	}
 
 };
 
-void BinaryTreeExample()
+void static BinaryTreeExample()
 {
 	BinaryTree* BT = new BinaryTree();
 
@@ -317,10 +320,57 @@ void BinaryTreeExample()
 
 }
 
+void static heapfiy(int arr[], int n, int i)
+{
+	int left = (2 * i) + 1;
+	int right = (2 * i) + 2;
+	int max = i;
+	if (left < n && arr[left] > arr[max])
+		max = left;
+	if (right < n && arr[right] > arr[max])
+		max = right;
+	
+	if (max != i)
+	{
+		swap(arr[i], arr[max]);
+		heapfiy(arr, n, max);
+	}
+}
+void static buildHeap(int arr[], int n)
+{
+	for(int i = n / 2 - 1; i >= 0; i--)
+		heapfiy(arr, n, i);
+}
+void static heapSort(int arr[], int n)
+{
+	buildHeap(arr, n);
+	for (int i = n - 1; i >=0; i--)
+	{
+		swap(arr[0], arr[i]);
+		heapfiy(arr, n ,0);
+	}
+}
+
+
+void static heapSortExample()
+{
+	int arr[] = { 3, 2, 5, 6, 9, 7, 1 };
+	
+	for (int i : arr) cout << i << " ";
+	
+	cout << endl;
+	heapSort(arr, 7);
+	
+	for (int i : arr) cout << i << " ";
+}
+
 int main()
 {
-	BinaryTreeExample();
+	//BinaryTreeExample();
+
+	heapSortExample();
 	
+	cout << endl;
 	system("pause");
 	return 0;
 }
