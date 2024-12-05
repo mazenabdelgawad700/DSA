@@ -297,7 +297,6 @@ public:
 	}
 
 };
-
 void static BinaryTreeExample()
 {
 	BinaryTree* BT = new BinaryTree();
@@ -368,11 +367,37 @@ void static heapSortExample()
 	
 }
 
+
+int maxProfit(vector<int>& prices) {
+	int left = 0, right = 1, current = 0, maxProft = 0;
+
+	while (right < prices.size())
+	{
+		if (prices.at(left) < prices.at(right))
+		{
+			current = prices.at(right) - prices.at(left);
+			maxProft = max(maxProft, current);
+		}
+		else
+			left = right;
+		right++;
+	}
+	return maxProft;
+}
+
+int lengthOfLongestSubstring(string s) {
+	
+}
+
 int main()
 {
-	//BinaryTreeExample();
+	//vector<int> numbers = { 7, 1, 5, 3, 6, 4 };
+	//vector<int> numbers = {7, 6, 4, 3, 1};
+	//vector<int> numbers = {1};
+	//vector<int> numbers = { 1,2,4,2,5,7,2,4,9,0,9 };
+	//cout << maxProfit(numbers) << endl;
+	
 
-	heapSortExample();
 	
 	cout << endl;
 	system("pause");
