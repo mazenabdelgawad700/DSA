@@ -1,7 +1,8 @@
-﻿#include <iostream>
-#include <string>
+﻿#include <cassert>
+#include <iostream>
 #include <queue>
-#include <cassert>
+#include <string>
+#include<unordered_set>
 using namespace std;
 
 class BinaryTree {
@@ -65,7 +66,7 @@ private:
 			elements.pop();
 		}
 	}
-	bool search_node(Node* node, int itemToSearch) 
+	bool search_node(Node* node, int itemToSearch)
 	{
 		if (node == nullptr)
 		{
@@ -78,15 +79,15 @@ private:
 
 		if (itemToSearch < root->item)
 			search_node(node->leftPtr, itemToSearch);
-		else 
+		else
 			search_node(node->rightPtr, itemToSearch);
 
 	}
-	void deleteFromTree(Node* &node)
+	void deleteFromTree(Node*& node)
 	{
-		Node* current;   
-		Node* trailCurrent;   
-		Node* temp;        
+		Node* current;
+		Node* trailCurrent;
+		Node* temp;
 
 		if (node->leftPtr == nullptr && node->rightPtr == nullptr)
 		{
@@ -125,7 +126,7 @@ private:
 			delete current;
 		}
 	}
-	int height(Node* node) 
+	int height(Node* node)
 	{
 		if (isEmpty())
 		{
@@ -173,7 +174,7 @@ private:
 			node = nullptr;
 		}
 	}
-	
+
 public:
 	BinaryTree() :root(nullptr) {}
 	void preorderTraversal()
@@ -196,9 +197,9 @@ public:
 		levelorder(root);
 	}
 	void insert(int itemToInsert) {
-		Node* current = new Node();  
-		Node* trailCurrent = new Node(); 
-		Node* newNode = new Node(); 
+		Node* current = new Node();
+		Node* trailCurrent = new Node();
+		Node* newNode = new Node();
 
 		newNode = new Node;
 		assert(newNode != nullptr);
@@ -233,8 +234,8 @@ public:
 	}
 	void remove(int item)
 	{
-		Node* current;  
-		Node* trailCurrent; 
+		Node* current;
+		Node* trailCurrent;
 
 		if (root == nullptr)
 		{
@@ -310,7 +311,7 @@ void static BinaryTreeExample()
 	BT->insert(50);
 
 	BT->postorderTraversal();
-	
+
 	BT->clear();
 
 	BT->postorderTraversal();
@@ -328,7 +329,7 @@ void static heapfiy(int arr[], int n, int i)
 		max = left;
 	if (right < n && arr[right] > arr[max])
 		max = right;
-	
+
 	if (max != i)
 	{
 		swap(arr[i], arr[max]);
@@ -337,16 +338,16 @@ void static heapfiy(int arr[], int n, int i)
 }
 void static buildHeap(int arr[], int n)
 {
-	for(int i = n / 2 - 1; i >= 0; i--)
+	for (int i = n / 2 - 1; i >= 0; i--)
 		heapfiy(arr, n, i);
 }
 void static heapSort(int arr[], int n)
 {
 	buildHeap(arr, n);
-	for (int i = n - 1; i >=0; i--)
+	for (int i = n - 1; i >= 0; i--)
 	{
 		swap(arr[0], arr[i]);
-		heapfiy(arr, n ,0);
+		heapfiy(arr, n, 0);
 	}
 }
 void static print(int arr[], int size)
@@ -364,11 +365,11 @@ void static heapSortExample()
 	heapSort(arr, size);
 
 	print(arr, size);
-	
+
 }
 
 
-int maxProfit(vector<int>& prices) {
+int static maxProfit(vector<int>& prices) {
 	int left = 0, right = 1, current = 0, maxProft = 0;
 
 	while (right < prices.size())
@@ -384,21 +385,74 @@ int maxProfit(vector<int>& prices) {
 	}
 	return maxProft;
 }
+int static lengthOfLongestSubstring(string s) {
+	unordered_set<char> charSet;
+	int l = 0, res = 0;
 
-int lengthOfLongestSubstring(string s) {
-	
+	for (int r = 0; r < s.length(); ++r) {
+		while (charSet.find(s[r]) != charSet.end())
+		{
+			charSet.erase(s[l]);
+			++l;
+		}
+		charSet.insert(s[r]);
+		res = max(res, r - l + 1);
+	}
+	return res;
+}
+vector<int> static get_k_sum(vector<int>& numbers, int k)
+{
+	vector<int> result;
+	int p1 = 0, p2 = numbers.size() - 1, sum = 0;
+	while (p1 < p2)
+	{
+		sum = numbers.at(p1) + numbers.at(p2);
+		if (sum == k)
+		{
+			result.push_back(numbers.at(p1));
+			result.push_back(numbers.at(p2));
+			return result;
+		}
+		else if (sum < k)
+			p1++;
+		else
+			p2--;
+	}
+}
+void static draw_pyramid(int n)
+{
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = n; j >= i; j--)
+		{
+			cout << "*";
+		}
+		cout << endl;
+	}
+}
+void static draw_triangle(int number_of_starts)
+{
+	for (int i = 1; i <= 4; i++)
+	{
+		for (int space = 1; space <= 4 + i; space++)
+		{
+			cout << " ";
+		}
+
+		for (int i = 1; i <= number_of_starts; i++)
+		{
+			cout << "*";
+		}
+		number_of_starts -= 2;
+		cout << endl;
+	}
 }
 
 int main()
 {
-	//vector<int> numbers = { 7, 1, 5, 3, 6, 4 };
-	//vector<int> numbers = {7, 6, 4, 3, 1};
-	//vector<int> numbers = {1};
-	//vector<int> numbers = { 1,2,4,2,5,7,2,4,9,0,9 };
-	//cout << maxProfit(numbers) << endl;
-	
+	int number = 7;
+	draw_triangle(number);
 
-	
 	cout << endl;
 	system("pause");
 	return 0;
