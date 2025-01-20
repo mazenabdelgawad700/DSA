@@ -1,6 +1,7 @@
 ﻿#include <cassert>
 #include <iostream>
 #include <queue>
+#include<set>
 #include <string>
 #include<unordered_set>
 using namespace std;
@@ -447,11 +448,50 @@ void static draw_triangle(int number_of_starts)
 		cout << endl;
 	}
 }
-
+int static removeDuplicates(vector<int>& nums) {
+	int l = 0, r = 1;
+	while (r < nums.size())
+	{
+		if (nums.at(r) != nums.at(l))
+		{
+			l++;
+			nums.at(l) = nums.at(r);
+		}
+		else
+			r++;
+	}
+	return ++l;
+}
+void static print_vector(vector<int> numbers)
+{
+	for (int n : numbers)
+		cout << n << " ";
+	cout << endl;
+}
+vector<int> static twoSum(vector<int>& numbers, int target) {
+	vector<int> result;
+	int l = 0, r = numbers.size() - 1;
+	while (r < numbers.size())
+	{
+		if (numbers.at(l) + numbers.at(r) > target)
+			r--;
+		else if (numbers.at(l) + numbers.at(r) < target)
+			l++;
+		else
+		{
+			result.push_back(++l);
+			result.push_back(++r);
+			return result;
+		}
+	}
+	return result;
+}
 int main()
 {
-	int number = 7;
-	draw_triangle(number);
+	vector<int> numbers = { 0,0,3,4 };
+
+	print_vector(twoSum(numbers, 0));
+
 
 	cout << endl;
 	system("pause");
