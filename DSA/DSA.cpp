@@ -448,7 +448,7 @@ void static draw_triangle(int number_of_starts)
 		cout << endl;
 	}
 }
-int static removeDuplicates(vector<int>& nums) {
+int static remove_duplicates(vector<int>& nums) {
 	int l = 0, r = 1;
 	while (r < nums.size())
 	{
@@ -497,7 +497,6 @@ void static reverse_array(vector<int>& nums, int begin, int end)
 		end--;
 	}
 }
-
 void static rotate(vector<int>& nums, int k)
 {
 	if (nums.size() >= k)
@@ -507,14 +506,31 @@ void static rotate(vector<int>& nums, int k)
 		reverse_array(nums, k, nums.size() - 1);
 	}
 }
+int max_area(vector<int>& height) {
+	int left = 0, right = height.size() - 1, max_area = 0;
+	while (left < right)
+	{
+		int width = right - left;
+		int current_height = min(height.at(left), height.at(right));
+		int current_area = width * current_height;
+
+		max_area = max(current_area, max_area);
+
+		if (height.at(left) < height.at(right))
+			left++;
+		else
+			right--;
+	}
+	return max_area;
+}
+
 
 int main()
 {
-	vector<int> numbers = { 1, 2 };
+	vector<int> numbers = { 1,8,6,2,5,4,8,3,7 };
+	//vector<int> numbers = { 1,1 };
 
-	print_vector(numbers);
-	rotate(numbers, 3);
-	print_vector(numbers);
+	cout << "Max Area = " << max_area(numbers) << endl;
 
 
 	cout << endl;
