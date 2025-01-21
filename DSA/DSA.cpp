@@ -486,11 +486,35 @@ vector<int> static twoSum(vector<int>& numbers, int target) {
 	}
 	return result;
 }
+void static reverse_array(vector<int>& nums, int begin, int end)
+{
+	while (begin < end)
+	{
+		int temp = nums.at(begin);
+		nums.at(begin) = nums.at(end);
+		nums.at(end) = temp;
+		begin++;
+		end--;
+	}
+}
+
+void static rotate(vector<int>& nums, int k)
+{
+	if (nums.size() >= k)
+	{
+		reverse_array(nums, 0, nums.size() - 1);
+		reverse_array(nums, 0, k - 1);
+		reverse_array(nums, k, nums.size() - 1);
+	}
+}
+
 int main()
 {
-	vector<int> numbers = { 0,0,3,4 };
+	vector<int> numbers = { 1, 2 };
 
-	print_vector(twoSum(numbers, 0));
+	print_vector(numbers);
+	rotate(numbers, 3);
+	print_vector(numbers);
 
 
 	cout << endl;
