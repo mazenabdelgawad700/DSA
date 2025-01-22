@@ -3,6 +3,7 @@
 #include <queue>
 #include<set>
 #include <string>
+#include<unordered_map>
 #include<unordered_set>
 using namespace std;
 
@@ -523,14 +524,35 @@ int max_area(vector<int>& height) {
 	}
 	return max_area;
 }
+#include <vector>
+using namespace std;
 
+vector<int> productExceptSelf(vector<int>& nums) {
+	int n = nums.size();
+	vector<int> result(n, 1);
+
+	int prefix = 1;
+	for (int i = 0; i < n; i++) {
+		result.at(i) = prefix;
+		prefix *= nums.at(i);
+	}
+
+	int suffix = 1;
+	for (int i = n - 1; i >= 0; i--) {
+		result.at(i) *= suffix;
+		suffix *= nums.at(i);
+	}
+
+	return result;
+}
 
 int main()
 {
-	vector<int> numbers = { 1,8,6,2,5,4,8,3,7 };
-	//vector<int> numbers = { 1,1 };
+	//vector<int> numbers = { 1,2,3,4 };
+	vector<int> numbers = { -1,1,0,-3,3 };
 
-	cout << "Max Area = " << max_area(numbers) << endl;
+	vector<int> result = productExceptSelf(numbers);
+	print_vector(result);
 
 
 	cout << endl;
