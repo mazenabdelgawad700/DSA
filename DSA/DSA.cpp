@@ -5,6 +5,7 @@
 #include <string>
 #include<unordered_map>
 #include<unordered_set>
+#include <utility> 
 using namespace std;
 
 class BinaryTree {
@@ -321,7 +322,6 @@ void static BinaryTreeExample()
 	cout << (BT->search(22) ? "True" : "False");
 
 }
-
 void static heapfiy(int arr[], int n, int i)
 {
 	int left = (2 * i) + 1;
@@ -369,8 +369,6 @@ void static heapSortExample()
 	print(arr, size);
 
 }
-
-
 int static maxProfit(vector<int>& prices) {
 	int left = 0, right = 1, current = 0, maxProft = 0;
 
@@ -507,7 +505,7 @@ void static rotate(vector<int>& nums, int k)
 		reverse_array(nums, k, nums.size() - 1);
 	}
 }
-int max_area(vector<int>& height) {
+int static max_area(vector<int>& height) {
 	int left = 0, right = height.size() - 1, max_area = 0;
 	while (left < right)
 	{
@@ -524,10 +522,7 @@ int max_area(vector<int>& height) {
 	}
 	return max_area;
 }
-#include <vector>
-using namespace std;
-
-vector<int> productExceptSelf(vector<int>& nums) {
+vector<int> static productExceptSelf(vector<int>& nums) {
 	int n = nums.size();
 	vector<int> result(n, 1);
 
@@ -545,14 +540,185 @@ vector<int> productExceptSelf(vector<int>& nums) {
 
 	return result;
 }
+long long static continuousSubarrays(vector<int>& nums) {
+	long long num = 0LL;
+	int left = 0, right = left, low = nums[left] - 2, high = nums[left] + 2, n = nums.size();
+
+	while (right < n)
+	{
+		if (nums[right] <= high && nums[right] >= low)
+		{
+			num += right - left + 1;
+			high = min(high, nums[right] + 2);
+			low = max(low, nums[right] - 2);
+			++right;
+		}
+		else
+		{
+			int i = right - 1;
+			high = nums[right] + 2;
+			low = nums[right] - 2;
+			while (abs(nums[i] - nums[right]) <= 2)
+			{
+				high = min(high, nums[i] + 2);
+				low = max(low, nums[i] - 2);
+				--i;
+			}
+			left = i + 1;
+		}
+	}
+	return num;
+}
+long long static continuousSubarrays2(vector<int>& nums) {
+	long long count = 0; int l = 0, r = 0;
+	int current_min = nums[0], current_max = nums[0];
+	while (r < nums.size())
+	{
+		current_min = min(current_min, nums[r]);
+		current_max = max(current_max, nums[r]);
+		while (abs(current_max - current_min) > 2)
+		{
+			l += 1;
+			current_min = nums[l];
+			current_max = nums[l];
+			for (int i = l; i <= r; i++)
+			{
+				current_min = min(current_min, nums[i]);
+				current_max = max(current_max, nums[i]);
+			}
+		}
+		count += (r - l) + 1;
+		r += 1;
+	}
+	return count;
+}
+long long static findScore2(vector<int>& nums) {
+	long long score = 0; int size = nums.size();
+	vector<bool> marked(size, false);
+	while (true)
+	{
+
+		for (int i = 0; i < size; i++)
+		{
+			if (marked[i])
+			{
+				if (i == size - 1)
+				{
+					return score;
+				}
+				else
+					continue;
+			}
+			else
+				break;
+		}
+
+
+		int l = 0, r = size - 1;
+
+
+
+		while (l != r)
+		{
+			if (nums[l] <= nums[r])
+			{
+				if (marked[l])
+				{
+					l++;
+				}
+				else
+				{
+					r--;
+				}
+			}
+			else
+			{
+				if (marked[r])
+				{
+					r--;
+				}
+				else
+				{
+					l++;
+				}
+			}
+		}
+		score += nums[l];
+
+		marked[l] = true;
+
+		if (l > 0)
+			marked[l - 1] = true;
+
+		if (l <= size - 2)
+			marked.at(l + 1) = true;
+	}
+	return score;
+}
+long long static findScore(vector<int>& nums)
+{
+	int n = nums.size();
+	long long score = 0;
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
+
+	vector<bool> marked(n, false);
+
+	for (int i = 0; i < n; i++) {
+		minHeap.push({ nums[i], i });
+	}
+
+
+	while (!minHeap.empty()) {
+		int value = minHeap.top().first;
+		int index = minHeap.top().second;
+
+		minHeap.pop();
+
+		if (marked[index]) continue;
+
+		score += value;
+
+		marked[index] = true;
+		if (index > 0) marked[index - 1] = true;
+		if (index < n - 1) marked[index + 1] = true;
+	}
+
+	return score;
+}
+int maximumBeauty(vector<int>& nums, int k)
+{
+	priority_queue<int, vector<int>, greater<int>> minHeap;
+
+	for (int i = 0; i < nums.size(); i++)
+		minHeap.push(nums[i]);
+
+	for (int i = 0; i < nums.size(); i++)
+	{
+		nums[i] = minHeap.top();
+		minHeap.pop();
+	}
+	int l = 0, r = nums.size() - 1, count = 0;
+	while (l <= r)
+	{
+		if (nums[r] - nums[l] <= 2 * k)
+		{
+			r--;
+			count++;
+		}
+		else
+			l++;
+	}
+	return count;
+}
+
 
 int main()
 {
-	//vector<int> numbers = { 1,2,3,4 };
-	vector<int> numbers = { -1,1,0,-3,3 };
+	//vector<int> numbers = { 4,6,1,2 }; // 3
+	//vector<int> numbers = { 1,1,1,1 }; // 4
+	vector<int> numbers = { 75,15,9 }; // 2
 
-	vector<int> result = productExceptSelf(numbers);
-	print_vector(result);
+	cout << maximumBeauty(numbers, 28) << endl; // 1
 
 
 	cout << endl;
