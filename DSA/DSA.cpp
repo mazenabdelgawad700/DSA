@@ -685,7 +685,7 @@ long long static findScore(vector<int>& nums)
 
 	return score;
 }
-int maximumBeauty(vector<int>& nums, int k)
+int static maximumBeauty(vector<int>& nums, int k)
 {
 	priority_queue<int, vector<int>, greater<int>> minHeap;
 
@@ -710,16 +710,193 @@ int maximumBeauty(vector<int>& nums, int k)
 	}
 	return count;
 }
+class BinarySearchTree
+{
+	struct Node
+	{
+		int val;
+		Node* right;
+		Node* left;
+	};
+private:
+	Node* root;
+	long count_value = 0;
+	void insert(Node*& root, int val)
+	{
+		if (root == nullptr)
+		{
+			root = new Node();
+			count_value++;
+			root->val = val;
+		}
+		else
+		{
+			if (val > root->val)
+			{
+				insert(root->right, val);
+			}
+			else
+			{
+				insert(root->left, val);
+			}
+		}
+	}
+	void preorder(Node* node)
+	{
+		if (isEmpty())
+		{
+			cout << "Tree is empty" << endl;
+			return;
+		}
+		if (node != nullptr)
+		{
+			cout << node->val << " ";
+			preorder(node->left);
+			preorder(node->right);
+		}
+	}
+	void inorder(Node* node)
+	{
+		if (isEmpty())
+		{
+			cout << "Tree is empty" << endl;
+			return;
+		}
+		if (node != nullptr)
+		{
+			preorder(node->left);
+			cout << node->val << " ";
+			preorder(node->right);
+		}
+	}
+	bool search(Node* root, int val)
+	{
+		if (root == nullptr)
+			return false;
+
+		while (root != nullptr)
+		{
+			if (root->val == val)
+				return true;
+			else if (val > root->val)
+			{
+				root = root->right;
+				search(root, val);
+			}
+			else
+			{
+				root = root->left;
+				search(root, val);
+			}
+		}
+	}
+	Node* find_min(Node* root)
+	{
+		while (root->left != nullptr)
+			root = root->left;
+		return root;
+	}
+	Node* delete_node(Node*& root, int val) {
+		if (root == nullptr)
+			return root;
+
+		if (val < root->val)
+		{
+			root->left = delete_node(root->left, val);
+		}
+		else if (val > root->val)
+		{
+			root->right = delete_node(root->right, val);
+		}
+		else
+		{
+			if (root->left == nullptr && root->right == nullptr)
+			{
+				delete root;
+				root = nullptr;
+				return nullptr;
+			}
+			if (root->left == nullptr)
+			{
+				Node* temp = root->right;
+				delete root;
+				return temp;
+			}
+			else if (root->right == nullptr)
+			{
+				Node* temp = root->left;
+				delete root;
+				return temp;
+			}
+
+			Node* successor = find_min(root->right);
+			root->val = successor->val;
+			root->right = delete_node(root->right, successor->val);
+		}
+
+		return root;
+	}
+
+public:
+	BinarySearchTree()
+	{
+		root = nullptr;
+	}
+	void insert(int val)
+	{
+		insert(root, val);
+	}
+	void preorder()
+	{
+		preorder(root);
+	}
+	void inorder()
+	{
+		inorder(root);
+	}
+	bool isEmpty()
+	{
+		return root == nullptr;
+	}
+	bool search(int value_to_search)
+	{
+		return search(root, value_to_search);
+	}
+	long count()
+	{
+		return count_value;
+	}
+	void delete_node(int val)
+	{
+		delete_node(root, val);
+	}
+};
+
+
+void static binary_search_tree_exmpale()
+{
+	BinarySearchTree* bst = new BinarySearchTree();
+
+	bst->insert(4);
+	bst->insert(3);
+	bst->insert(5);
+	bst->insert(6);
+	bst->insert(7);
+	bst->insert(8);
+	bst->insert(12);
+
+	bst->inorder(); // 3 4 5 6 7 8 12
+	bst->delete_node(6);
+	cout << "\nAfter deletion" << endl;
+	bst->inorder(); // 3 4 5 7 8 12
+}
+
+
 
 
 int main()
 {
-	//vector<int> numbers = { 4,6,1,2 }; // 3
-	//vector<int> numbers = { 1,1,1,1 }; // 4
-	vector<int> numbers = { 75,15,9 }; // 2
-
-	cout << maximumBeauty(numbers, 28) << endl; // 1
-
+	binary_search_tree_exmpale();
 
 	cout << endl;
 	system("pause");
