@@ -983,6 +983,27 @@ void inorder_traversal(Node* root) {
 	cout << root->value << " ";
 	inorder_traversal(root->right);
 }
+bool search(Node* root, int val)
+{
+	if (root == Node::sentinel)
+		return false;
+
+	while (root != Node::sentinel)
+	{
+		if (root->value == val)
+			return true;
+		else if (val > root->value)
+		{
+			root = root->right;
+			search(root, val);
+		}
+		else
+		{
+			root = root->left;
+			search(root, val);
+		}
+	}
+}
 void AVL_tree_exmpale()
 {
 	Node* root = Node::sentinel;
@@ -999,8 +1020,13 @@ void AVL_tree_exmpale()
 	root = insert(root, 4);
 	root = insert(root, 8);
 
-	inorder_traversal(root);
+	//inorder_traversal(root);
+	int value_to_search = 7;
+	string result = search(root, value_to_search) ? " is exist" : " is not exist";
+	cout << value_to_search << result << endl;
 }
+// @TODO:: Delete Element
+
 /*AVL Tree */
 
 
