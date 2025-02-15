@@ -889,12 +889,126 @@ void static binary_search_tree_exmpale()
 	bst->inorder(); // 3 4 5 7 8 12
 }
 
+/*AVL Tree */
+struct Node
+{
+	Node* left;
+	Node* right;
+	int value, freq, height;
+	static Node* sentinel; // One Null for all tree elements
+	Node()
+	{
+		memset(this, 0, sizeof * this); // Initialize all memeber variables to zero
+	}
+	Node(int val)
+	{
+		value = val;
+		freq = height = 1;
+		left = right = sentinel;
+	}
+	void update_height()
+	{
+		height = 1 + max(left->height, right->height);
+	}
+	int balance_factor()
+	{
+		return left->height - right->height;
+	}
+};
+Node* Node::sentinel = new Node();
+Node* right_rotation(Node* Q)
+{
+	Node* P = Q->left;
+	Q->left = P->right;
+	P->right = Q;
+	Q->update_height();
+	P->update_height();
 
+	return P;
+}
+Node* left_rotation(Node* P)
+{
+	Node* Q = P->right;
+	P->right = Q->left;
+	Q->left = P;
+	Q->update_height();
+	P->update_height();
+
+	return Q;
+}
+Node* balance(Node* root)
+{
+	if (root->balance_factor() == 2)
+	{
+		if (root->left->balance_factor() == -1)
+			root->left = left_rotation(root->left);
+		root = right_rotation(root);
+	}
+	else if (root->balance_factor() == -2)
+	{
+		if (root->right->balance_factor() == 1)
+			root->right = right_rotation(root->right);
+		root = left_rotation(root);
+	}
+	return root;
+}
+Node* insert(Node*& root, int val)
+{
+	// Normal BST
+	if (root == Node::sentinel)
+		return new Node(val);
+
+	if (val == root->value)
+	{
+		root->freq++;
+		return root;
+	}
+
+	else if (val > root->value)
+		root->right = insert(root->right, val);
+
+	else
+		root->left = insert(root->left, val);
+
+	// AVL Change
+	root->update_height();
+	root = balance(root);
+	return root;
+}
+void inorder_traversal(Node* root) {
+	if (root == Node::sentinel)
+		return;
+
+	inorder_traversal(root->left);
+	cout << root->value << " ";
+	inorder_traversal(root->right);
+}
+void AVL_tree_exmpale()
+{
+	Node* root = Node::sentinel;
+
+	root = insert(root, 3);
+	root = insert(root, 5);
+	root = insert(root, 9);
+	root = insert(root, 1);
+	root = insert(root, 0);
+	root = insert(root, 2);
+	root = insert(root, 6);
+	root = insert(root, 10);
+	root = insert(root, 7);
+	root = insert(root, 4);
+	root = insert(root, 8);
+
+	inorder_traversal(root);
+}
+/*AVL Tree */
 
 
 int main()
 {
-	binary_search_tree_exmpale();
+	//binary_search_tree_exmpale();
+	AVL_tree_exmpale();
+
 
 	cout << endl;
 	system("pause");
