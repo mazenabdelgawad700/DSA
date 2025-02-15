@@ -871,8 +871,6 @@ public:
 		delete_node(root, val);
 	}
 };
-
-
 void static binary_search_tree_exmpale()
 {
 	BinarySearchTree* bst = new BinarySearchTree();
