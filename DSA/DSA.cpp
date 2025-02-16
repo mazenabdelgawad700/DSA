@@ -915,7 +915,7 @@ struct Node
 	}
 };
 Node* Node::sentinel = new Node();
-Node* right_rotation(Node* Q)
+static Node* right_rotation(Node* Q)
 {
 	Node* P = Q->left;
 	Q->left = P->right;
@@ -925,7 +925,7 @@ Node* right_rotation(Node* Q)
 
 	return P;
 }
-Node* left_rotation(Node* P)
+static Node* left_rotation(Node* P)
 {
 	Node* Q = P->right;
 	P->right = Q->left;
@@ -935,7 +935,7 @@ Node* left_rotation(Node* P)
 
 	return Q;
 }
-Node* balance(Node* root)
+static Node* balance(Node* root)
 {
 	if (root->balance_factor() == 2)
 	{
@@ -951,7 +951,7 @@ Node* balance(Node* root)
 	}
 	return root;
 }
-Node* insert(Node*& root, int val)
+static Node* insert(Node*& root, int val)
 {
 	// Normal BST
 	if (root == Node::sentinel)
@@ -974,7 +974,7 @@ Node* insert(Node*& root, int val)
 	root = balance(root);
 	return root;
 }
-void inorder_traversal(Node* root) {
+void static inorder_traversal(Node* root) {
 	if (root == Node::sentinel)
 		return;
 
@@ -982,7 +982,7 @@ void inorder_traversal(Node* root) {
 	cout << root->value << " ";
 	inorder_traversal(root->right);
 }
-bool search(Node* root, int val)
+bool static search(Node* root, int val)
 {
 	if (root == Node::sentinel)
 		return false;
@@ -1003,7 +1003,54 @@ bool search(Node* root, int val)
 		}
 	}
 }
-void AVL_tree_exmpale()
+Node* find_avl_min(Node* root)
+{
+	while (root->left != Node::sentinel)
+		root = root->left;
+	return root;
+}
+static Node* delete_avl_tree_node(Node*& root, int val)
+{
+	if (root == Node::sentinel)
+		return Node::sentinel;
+
+	if (val < root->value)
+	{
+		root->left = delete_avl_tree_node(root->left, val);
+	}
+	else if (val > root->value)
+	{
+		root->right = delete_avl_tree_node(root->right, val);
+	}
+	else
+	{
+		if (root->left == Node::sentinel && root->right == Node::sentinel)
+		{
+			delete root;
+			root = Node::sentinel;
+			return Node::sentinel;
+		}
+		if (root->left == Node::sentinel)
+		{
+			Node* temp = root->right;
+			delete root;
+			return temp;
+		}
+		else if (root->right == Node::sentinel)
+		{
+			Node* temp = root->left;
+			delete root;
+			return temp;
+		}
+
+		Node* successor = find_avl_min(root->right);
+		root->value = successor->value;
+		root->right = delete_avl_tree_node(root->right, successor->value);
+	}
+	root->update_height();
+	root = balance(root);
+}
+void static AVL_tree_exmpale()
 {
 	Node* root = Node::sentinel;
 
@@ -1019,12 +1066,15 @@ void AVL_tree_exmpale()
 	root = insert(root, 4);
 	root = insert(root, 8);
 
-	//inorder_traversal(root);
-	int value_to_search = 7;
-	string result = search(root, value_to_search) ? " is exist" : " is not exist";
-	cout << value_to_search << result << endl;
+	inorder_traversal(root);
+	//int value_to_search = 7;
+	//string result = search(root, value_to_search) ? " is exist" : " is not exist";
+	//cout << value_to_search << result << endl;
+
+	root = delete_avl_tree_node(root, 9);
+	cout << endl;
+	inorder_traversal(root);
 }
-// @TODO:: Delete Element
 /*AVL Tree */
 
 
