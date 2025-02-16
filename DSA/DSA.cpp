@@ -1026,13 +1026,11 @@ void AVL_tree_exmpale()
 	cout << value_to_search << result << endl;
 }
 // @TODO:: Delete Element
-
 /*AVL Tree */
 
 
 int main()
 {
-	//binary_search_tree_exmpale();
 	AVL_tree_exmpale();
 
 
