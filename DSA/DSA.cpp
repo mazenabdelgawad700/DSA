@@ -1116,9 +1116,37 @@ void static counting_sort_example()
 
 	print_vector(numbers);
 }
-void static radix_sort()
+bool static is_digits_count_valid(int number, int valid_digits_count)
 {
-
+	int digits_count = 0;
+	while (number)
+	{
+		digits_count++;
+		number /= 10;
+	}
+	return digits_count == valid_digits_count;
+}
+void static radix_sort(vector<int> A)
+{
+	// Get max number
+	int max_number = *max_element(A.begin(), A.end());
+	int max_digits_count = 0;
+	int temp = max_number;
+	while (temp)
+	{
+		max_digits_count++;
+		temp /= 10;
+	}
+	// Make sure the rest of the array's numbers have the same count of 
+	for (int i = 0; i < A.size(); i++)
+	{
+		if (!is_digits_count_valid(A.at(i), max_digits_count))
+		{
+			// Figure out some way to handle the digits count problem
+			// 007
+		}
+	}
+	// Apply count-sort on the LSB until MSB
 }
 void static radix_sort_example()
 {
