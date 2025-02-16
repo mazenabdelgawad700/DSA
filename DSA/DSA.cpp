@@ -1101,6 +1101,7 @@ void static counting_sort(vector<int> A)
 		int value = A.at(i);
 		int position = C.at(value) - 1;
 		B.at(position) = value;
+		C.at(value)--;
 	}
 
 	A = B;
@@ -1114,6 +1115,14 @@ void static counting_sort_example()
 	counting_sort(numbers);
 
 	print_vector(numbers);
+}
+void static radix_sort()
+{
+
+}
+void static radix_sort_example()
+{
+
 }
 
 int main()
