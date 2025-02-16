@@ -888,7 +888,6 @@ void static binary_search_tree_exmpale()
 	cout << "\nAfter deletion" << endl;
 	bst->inorder(); // 3 4 5 7 8 12
 }
-
 /*AVL Tree */
 struct Node
 {
@@ -1033,8 +1032,5 @@ int main()
 {
 	AVL_tree_exmpale();
 
-
-	cout << endl;
-	system("pause");
-	return 0;
+	cout << endl; system("pause");
 }
