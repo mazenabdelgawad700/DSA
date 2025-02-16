@@ -888,7 +888,7 @@ void static binary_search_tree_exmpale()
 	cout << "\nAfter deletion" << endl;
 	bst->inorder(); // 3 4 5 7 8 12
 }
-/*AVL Tree */
+/* Start AVL Tree */
 struct Node
 {
 	Node* left;
@@ -1003,7 +1003,7 @@ bool static search(Node* root, int val)
 		}
 	}
 }
-Node* find_avl_min(Node* root)
+static Node* find_avl_min(Node* root)
 {
 	while (root->left != Node::sentinel)
 		root = root->left;
@@ -1075,12 +1075,50 @@ void static AVL_tree_exmpale()
 	cout << endl;
 	inorder_traversal(root);
 }
-/*AVL Tree */
+/* End AVL Tree */
+void static counting_sort(vector<int> A)
+{
+	if (A.empty()) return;
 
+	int k = *max_element(A.begin(), A.end());
+
+	vector<int> C(k + 1, 0);
+
+	for (int num : A)
+	{
+		C.at(num)++;
+	}
+
+	for (int i = 1; i <= k; i++)
+	{
+		C.at(i) += C.at(i - 1);
+	}
+
+	vector<int> B(A.size());
+
+	for (int i = A.size() - 1; i >= 0; i--)
+	{
+		int value = A.at(i);
+		int position = C.at(value) - 1;
+		B.at(position) = value;
+	}
+
+	A = B;
+}
+void static counting_sort_example()
+{
+	vector<int> numbers = { 8, 3, 7, 1, 10 };
+
+	print_vector(numbers);
+
+	counting_sort(numbers);
+
+	print_vector(numbers);
+}
 
 int main()
 {
-	AVL_tree_exmpale();
+	counting_sort_example();
 
 	cout << endl; system("pause");
 }
