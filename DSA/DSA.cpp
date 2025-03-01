@@ -1126,36 +1126,60 @@ bool static is_digits_count_valid(int number, int valid_digits_count)
 	}
 	return digits_count == valid_digits_count;
 }
-void static radix_sort(vector<int> A)
-{
-	// Get max number
-	int max_number = *max_element(A.begin(), A.end());
-	int max_digits_count = 0;
-	int temp = max_number;
-	while (temp)
-	{
-		max_digits_count++;
-		temp /= 10;
-	}
-	// Make sure the rest of the array's numbers have the same count of 
-	for (int i = 0; i < A.size(); i++)
-	{
-		if (!is_digits_count_valid(A.at(i), max_digits_count))
-		{
-			// Figure out some way to handle the digits count problem
-			// 007
+int static findMax(vector<int>& numbers) {
+	int max = numbers[0];  // Start with the first number
+	for (int i = 1; i < numbers.size(); i++) {
+		if (numbers[i] > max) {
+			max = numbers[i];  // Update max if we find a bigger one
 		}
 	}
-	// Apply count-sort on the LSB until MSB
+	return max;
 }
-void static radix_sort_example()
-{
+void static countSortByDigit(vector<int>& numbers, int digitPlace) {
+	int n = numbers.size();
+	vector<int> output(n);
+	vector<int> count(10, 0);
 
+	for (int i = 0; i < n; i++)
+	{
+		int digit = (numbers[i] / digitPlace) % 10;
+		count[digit]++;
+	}
+
+	for (int i = 1; i < 10; i++)
+	{
+		count[i] += count[i - 1];
+	}
+
+	for (int i = n - 1; i >= 0; i--)
+	{
+		int digit = (numbers[i] / digitPlace) % 10;
+		output[count[digit] - 1] = numbers[i];
+		count[digit]--;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		numbers[i] = output[i];
+	}
+}
+void static radixSort()
+{
+	vector<int>numbers = { 53, 12, 89, 7, 234, 4 };
+
+	print_vector(numbers);
+
+	int maxNum = findMax(numbers);
+
+	for (int digitPlace = 1; maxNum / digitPlace > 0; digitPlace *= 10)
+		countSortByDigit(numbers, digitPlace);
+
+	print_vector(numbers);
 }
 
 int main()
 {
-	counting_sort_example();
+	radixSort();
 
 	cout << endl; system("pause");
 }
