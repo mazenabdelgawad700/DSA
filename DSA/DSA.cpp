@@ -6,6 +6,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include <utility> 
+#include <vector>
 using namespace std;
 
 class BinaryTree {
@@ -1176,10 +1177,27 @@ void static radixSort()
 
 	print_vector(numbers);
 }
+/* mostPoints */
+long long states[100001];
+long long solve(int i, vector<vector<int>>& questions, int n)
+{
+	if (i >= n) return 0;
+
+	if (states[i]) return states[i];
+
+	return states[i] = max(solve(i + 1, questions, n), solve(i + 1 + questions[i][1], questions, n) + questions[i][0]);
+}
+long long mostPoints(vector<vector<int>>& questions) {
+	int n = questions.size();
+	return solve(0, questions, n);
+}
+/* mostPoints */
 
 int main()
 {
-	radixSort();
+	vector<vector<int>> questions = { {3, 2}, {4, 3}, {4, 4}, {2, 5} };
+
+	cout << mostPoints(questions) << endl; // 2 ^ n
 
 	cout << endl; system("pause");
 }
